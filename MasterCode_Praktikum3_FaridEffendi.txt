@@ -1,0 +1,152 @@
+Nama  : Farid Effendi
+Kelas : TI.17.D1
+Nim   : 311710057
+
+Langkah AWAL!!!
+1. Buat Database Baru
+mysql> CREATE DATABASE pelitabangsa;
+mysql> use pelitabangsa;
+
+2. Buat Table Baru
+mysql> CREATE TABLE Mahasiswa
+    -> (Nim char(8) PRIMARY KEY,
+    -> Nama varchar (25) not null,
+    -> AlamatJalan varchar (200) null,
+    -> Kota varchar (25) not null,
+    -> KodePos char(8) null,
+    -> NoHp char(15) null,
+    -> JenisKelamin varchar(15) not null,
+    -> TanggalLahir date not null,
+    -> KodeDosen char(8) null);
+Soal##
+1. Isi data pada table tersebut sebanyak minimal 5 record data.
+mysql> INSERT INTO Mahasiswa
+    -> (Nim, Nama, Kota, JenisKelamin, TanggalLahir)
+    -> VALUES
+    -> ("11223344", "Ari Santoso", "Bekasi", "Laki-Laki", "1998-10-12"),
+    -> ("11223345", "Ario Talib", "Cikarang", "Laki-Laki", "1999-11-16"),
+    -> ("11223346", "Dina Marlina", "Karawang", "Perempuan", "1997-12-01"),
+    -> ("11223347", "Lisa Ayu", "Bekasi", "Perempuan", "1996-01-02"),
+    -> ("11223348", "Tiara Wahidah", "Bekasi", "Perempuan", "1980-02-05"),
+    -> ("11223349", "Anton Sinaga", "Cikarang", "Laki-Laki", "1988-03-10");
+
+2. Tampilkan seluruh record table!
+mysql> SELECT * FROM Mahasiswa;
++----------+---------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama          | AlamatJalan | Kota     | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+---------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223344 | Ari Santoso   | NULL        | Bekasi   | NULL    | NULL | Laki-Laki    | 1998-10-12   | NULL      |
+| 11223345 | Ario Talib    | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1999-11-16   | NULL      |
+| 11223346 | Dina Marlina  | NULL        | Karawang | NULL    | NULL | Perempuan    | 1997-12-01   | NULL      |
+| 11223347 | Lisa Ayu      | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1996-01-02   | NULL      |
+| 11223348 | Tiara Wahidah | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1980-02-05   | NULL      |
+| 11223349 | Anton Sinaga  | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1988-03-10   | NULL      |
++----------+---------------+-------------+----------+---------+------+--------------+--------------+-----------+
+
+
+3. Ubah data tanggal lahir mahasiswa yang bernama Ari menjadi :  1979-08-31!  
+mysql> UPDATE Mahasiswa
+    -> set TanggalLahir="1979-08-31"
+    -> WHERE Nim="11223344";
+
+4. Tampilkan satu baris / record data yang telah diubah tadi yaitu record dengan  nama Ari saja!  
+mysql> SELECT * FROM Mahasiswa
+    -> WHERE Nama="Ari Santoso";
++----------+-------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama        | AlamatJalan | Kota   | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+-------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| 11223344 | Ari Santoso | NULL        | Bekasi | NULL    | NULL | Laki-Laki    | 1979-08-31   | NULL      |
++----------+-------------+-------------+--------+---------+------+--------------+--------------+-----------+
+
+
+5. Hapus Mahasiswa yang bernama Dina!  
+mysql> DELETE FROM Mahasiswa WHERE Nama="Dina Marlina";
+
+6. Tampilkan record atau data yang tanggal kelahirannya lebih dari atau sama dengan 1996-1-2!  
+mysql> SELECT * FROM Mahasiswa
+    -> WHERE TanggalLahir >= "1996-01-02"
+    -> ORDER BY Nama;
++----------+------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama       | AlamatJalan | Kota     | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223345 | Ario Talib | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1999-11-16   | NULL      |
+| 11223347 | Lisa Ayu   | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1996-01-02   | NULL      |
++----------+------------+-------------+----------+---------+------+--------------+--------------+-----------+
+
+7. Tampilkan semua Mahasiswa yang berasal dari Bekasi dan berjenis kelamin perempuan!  
+mysql> SELECT * FROM Mahasiswa
+    -> WHERE Kota="Bekasi"
+    -> AND JenisKelamin="Perempuan";
++----------+---------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama          | AlamatJalan | Kota   | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+---------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| 11223347 | Lisa Ayu      | NULL        | Bekasi | NULL    | NULL | Perempuan    | 1996-01-02   | NULL      |
+| 11223348 | Tiara Wahidah | NULL        | Bekasi | NULL    | NULL | Perempuan    | 1980-02-05   | NULL      |
++----------+---------------+-------------+--------+---------+------+--------------+--------------+-----------+
+
+8. Tampilkan semua Mahasiswa yang berasal dari Bekasi dengan kelamin laki-laki atau Mahasiswa yang berumur lebih dari 22 tahun dengan kelamin wanita!
+mysql> SELECT * FROM Mahasiswa
+    -> WHERE Kota="Bekasi"
+    -> And JenisKelamin="Laki-Laki"
+    -> OR TanggalLahir BETWEEN "1988-03-10" AND "1999-11-16" AND JenisKelamin <> "Perempuan";
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama         | AlamatJalan | Kota     | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223344 | Ari Santoso  | NULL        | Bekasi   | NULL    | NULL | Laki-Laki    | 1979-08-31   | NULL      |
+| 11223345 | Ario Talib   | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1999-11-16   | NULL      |
+| 11223349 | Anton Sinaga | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1988-03-10   | NULL      |
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+
+9. Tampilkan data nama dan alamat mahasiswa saja dari tabel tersebut
+mysql> SELECT Nama, AlamatJalan FROM Mahasiswa;
++---------------+-------------+
+| Nama          | AlamatJalan |
++---------------+-------------+
+| Ari Santoso   | NULL        |
+| Ario Talib    | NULL        |
+| Lisa Ayu      | NULL        |
+| Tiara Wahidah | NULL        |
+| Anton Sinaga  | NULL        |
++---------------+-------------+
+
+10. Tampilkan data mahasiswa terurut berdasarkan nama
+mysql> SELECT * FROM Mahasiswa
+    -> ORDER BY Nama ASC;
++----------+---------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama          | AlamatJalan | Kota     | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+---------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223349 | Anton Sinaga  | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1988-03-10   | NULL      |
+| 11223344 | Ari Santoso   | NULL        | Bekasi   | NULL    | NULL | Laki-Laki    | 1979-08-31   | NULL      |
+| 11223345 | Ario Talib    | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1999-11-16   | NULL      |
+| 11223347 | Lisa Ayu      | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1996-01-02   | NULL      |
+| 11223348 | Tiara Wahidah | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1980-02-05   | NULL      |
++----------+---------------+-------------+----------+---------+------+--------------+--------------+-----------+
+
+EVALUASI DAN PERTANYAAN!!!
+
+1.Apa bedanya penggunaan BETWEEN dan penggunaan operator >= dan <= ?
+(misal: tgl_lahir BETWEEN '1990-10-10' AND '1992-10-11')
+(misal: tgl_lahir >= '1990-10-10' AND tgl_lahir <= '1992-10-11')
+
+	Penyelesaian:
+mysql> SELECT * FROM Mahasiswa
+    -> where TanggalLahir BETWEEN "1988-03-10" AND "1999-11-16";
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama         | AlamatJalan | Kota     | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223345 | Ario Talib   | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1999-11-16   | NULL      |
+| 11223347 | Lisa Ayu     | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1996-01-02   | NULL      |
+| 11223349 | Anton Sinaga | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1988-03-10   | NULL      |
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+
+mysql>  SELECT * FROM Mahasiswa
+    -> where TanggalLahir >= "1988-03-10" AND TanggalLahir <= "1999-11-16";
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| Nim      | Nama         | AlamatJalan | Kota     | KodePos | NoHp | JenisKelamin | TanggalLahir | KodeDosen |
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223345 | Ario Talib   | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1999-11-16   | NULL      |
+| 11223347 | Lisa Ayu     | NULL        | Bekasi   | NULL    | NULL | Perempuan    | 1996-01-02   | NULL      |
+| 11223349 | Anton Sinaga | NULL        | Cikarang | NULL    | NULL | Laki-Laki    | 1988-03-10   | NULL      |
++----------+--------------+-------------+----------+---------+------+--------------+--------------+-----------+
+
+	Dari 2 Cara Di atas dapat disimpulkan Bahwa  penggunaan BETWEEN dan penggunaan operator >= dan <= Hasil yang di tampilkan Sama saja
